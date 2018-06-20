@@ -23,11 +23,15 @@ export function voronoiTreemap () {
   ///////// API /////////
   ///////////////////////
 
-  function _voronoiTreemap (rootNode) {
+  function _voronoiTreemap (rootNode, initialPosition = null) {
     _voronoiMap.weight(function(d){ return d.value; })
       .convergenceRatio(convergenceRatio)
       .maxIterationCount(maxIterationCount)
       .minWeightRatio(minWeightRatio);
+
+    if(initialPosition) {
+      _voronoiMap.initialPosition(initialPosition);
+    }
 
     recurse(clip, rootNode);
   };
@@ -62,7 +66,7 @@ export function voronoiTreemap () {
   };
 
   _voronoiTreemap.initialPosition = function (_) {
-    if (!arguments.length) { return initialPosition; }
+    if (!arguments.length) { return initialPosition(); }
 
     initialPosition = _;
     return _voronoiTreemap;
@@ -87,6 +91,8 @@ export function voronoiTreemap () {
       })
       //end: recurse on children
     }
+
+    return voronoiMapRes.initialPosition;
   };
 
   return _voronoiTreemap;
