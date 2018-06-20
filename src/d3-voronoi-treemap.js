@@ -1,7 +1,6 @@
 import {voronoiMap} from 'd3-voronoi-map';
 
 export function voronoiTreemap () {
-  console.log("hello from inside of voronoi treemap");
   //begin: constants
   var DEFAULT_CONVERGENCE_RATIO = 0.01;
   var DEFAULT_MAX_ITERATION_COUNT = 50;
@@ -18,6 +17,7 @@ export function voronoiTreemap () {
   var _voronoiMap = voronoiMap();
   //end: internals
 
+  var initialPosition = _voronoiMap.initialPosition();
 
   ///////////////////////
   ///////// API /////////
@@ -58,6 +58,13 @@ export function voronoiTreemap () {
 
     _voronoiMap.clip(_);
     clip = _voronoiMap.clip();
+    return _voronoiTreemap;
+  };
+
+  _voronoiTreemap.initialPosition = function (_) {
+    if (!arguments.length) { return initialPosition; }
+
+    initialPosition = _;
     return _voronoiTreemap;
   };
 
