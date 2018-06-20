@@ -76,7 +76,7 @@ d3-polygon@1.0.3:
 
 "d3-voronoi-map@git+https://git@github.com/aleksabobic/d3-voronoi-map":
   version "1.0.0"
-  resolved "git+https://git@github.com/aleksabobic/d3-voronoi-map#19cf2fe8ee0a8489ebd2142153d26f434884012b"
+  resolved "git+https://git@github.com/aleksabobic/d3-voronoi-map#bf27886b18433a35abd3305177b862255dce6388"
   dependencies:
     d3-array "1.2.0"
     d3-polygon "1.0.3"
