@@ -25,13 +25,14 @@
     ///////// API /////////
     ///////////////////////
 
-    function _voronoiTreemap (rootNode, initialPosition = null) {
+    function _voronoiTreemap (rootNode) {
       _voronoiMap.weight(function(d){ return d.value; })
         .convergenceRatio(convergenceRatio)
         .maxIterationCount(maxIterationCount)
         .minWeightRatio(minWeightRatio);
 
-      recurse(clip, rootNode);
+      // Reutrns highst node with all children
+      return recurse(clip, rootNode);
     };
 
     _voronoiTreemap.convergenceRatio = function (_) {
