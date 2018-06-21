@@ -21,13 +21,11 @@
     var _voronoiMap = d3VoronoiMap.voronoiMap();
     //end: internals
 
-    var initialPosition = _voronoiMap.initialPosition();
-
     ///////////////////////
     ///////// API /////////
     ///////////////////////
 
-    function _voronoiTreemap (rootNode) {
+    function _voronoiTreemap (rootNode, initialPosition = null) {
       _voronoiMap.weight(function(d){ return d.value; })
         .convergenceRatio(convergenceRatio)
         .maxIterationCount(maxIterationCount)
@@ -65,32 +63,32 @@
       return _voronoiTreemap;
     };
 
-    _voronoiTreemap.initialPosition = function (_) {
-      if (!arguments.length) { return initialPosition; }
-
-      initialPosition = _;
-      return _voronoiTreemap;
-    };
-
     ///////////////////////
     /////// Private ///////
     ///////////////////////
 
     function recurse(clippingPolygon, node) {
       var voronoiMapRes;
+      var originalData = [];
 
       //assign polygon to node
       node.polygon = clippingPolygon;
 
       if (node.height!=0) {
         //compute one-level Voronoi map of children
-        voronoiMapRes = _voronoiMap.clip(clippingPolygon)(node.children);
+        voronoiMapRes = _voronoiMap.clip(clippingPolygon)(node.children ? node.children : node);
+
+        //get original dat from current nodes
+        voronoiMapRes.polygons.forEach(polygon => originalData.push(polygon.site.originalObject.data.originalData));
+
         //begin: recurse on children
         voronoiMapRes.polygons.forEach(function(cp){
           recurse(cp, cp.site.originalObject.data.originalData);
         })
         //end: recurse on children
       }
+
+      return originalData;
     };
 
     return _voronoiTreemap;

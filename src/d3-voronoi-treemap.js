@@ -17,8 +17,6 @@ export function voronoiTreemap () {
   var _voronoiMap = voronoiMap();
   //end: internals
 
-  var initialPosition = _voronoiMap.initialPosition();
-
   ///////////////////////
   ///////// API /////////
   ///////////////////////
@@ -28,10 +26,6 @@ export function voronoiTreemap () {
       .convergenceRatio(convergenceRatio)
       .maxIterationCount(maxIterationCount)
       .minWeightRatio(minWeightRatio);
-
-    if(initialPosition) {
-      _voronoiMap.initialPosition(initialPosition);
-    }
 
     recurse(clip, rootNode);
   };
@@ -62,13 +56,6 @@ export function voronoiTreemap () {
 
     _voronoiMap.clip(_);
     clip = _voronoiMap.clip();
-    return _voronoiTreemap;
-  };
-
-  _voronoiTreemap.initialPosition = function (_) {
-    if (!arguments.length) { return initialPosition(); }
-
-    initialPosition = _;
     return _voronoiTreemap;
   };
 
