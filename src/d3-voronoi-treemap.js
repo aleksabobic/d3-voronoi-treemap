@@ -78,13 +78,18 @@ export function voronoiTreemap () {
 
   function recurse(clippingPolygon, node) {
     var voronoiMapRes;
+    var originalData = [];
 
     //assign polygon to node
     node.polygon = clippingPolygon;
 
     if (node.height!=0) {
       //compute one-level Voronoi map of children
-      voronoiMapRes = _voronoiMap.clip(clippingPolygon)(node.children);
+      voronoiMapRes = _voronoiMap.clip(clippingPolygon)(node.children ? node.children : node);
+
+      //get original dat from current nodes
+      voronoiMapRes.polygons.forEach(polygon => originalData.push(polygon.site.originalObject.data.originalData));
+
       //begin: recurse on children
       voronoiMapRes.polygons.forEach(function(cp){
         recurse(cp, cp.site.originalObject.data.originalData);
@@ -92,7 +97,7 @@ export function voronoiTreemap () {
       //end: recurse on children
     }
 
-    return voronoiMapRes.initialPosition;
+    return originalData;
   };
 
   return _voronoiTreemap;
